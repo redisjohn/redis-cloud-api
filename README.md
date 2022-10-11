@@ -17,7 +17,6 @@ Anyone who might be developing plugins for other provisioning tools such as Terr
 
 The first step in using the Redis Cloud API is Obtaining an API keys.  API keys are used for authentication of a request.  Each account has it's own set of API keys that are managed in the Redis Enterprise System Manager. 
 
-    (INSERT SCREENSHOT HERE)
 
 When making an API request, the API keys are stored in the HTTP request header.   There are two types of keys. These are account and user keys.   The Account key is associated with the account.   The User key also known as the secret key) is associated with a user and can be revoked.
 
@@ -50,21 +49,71 @@ API requests that create or modify resources require a JSON formatted request.  
 
 rediscapi is a simple python command line interface to the Redis Cloud API.  It can be used to create and delete subscriptions, create, modify and delete databases, and it allows you to monitor a long running task.  Here's the documentation: 
 
+    
+    rediscapi - A command line interface to the Redis Cloud API
+    
+    usage: rediscapi.py -k {keys.json} | -x {action} | -f {jsonfile} ] | -s {subscriptionId} | -d {databaseId}
+    
+    
+    where {action} is:
+    
+    	data-persistence|cloud-accounts|payment-methods|
+    	account|users|modules|
+    	create-subscription|subscriptions|delete-subscription|
+    	databases|database-byid|create-database|update-database|
+    	logs|status|tasks
+    
+    
+    Notes:
+    	You must edit keys.json to include apikey and api-secret-key
+    
+    	-x {action} is closely matched to https://api.redislabs.com/v1/swagger-ui.html
+    
+    	-k {keys.json} can be used to specify a path to the json file
+    
+    	-f {jsonfile} a json request body
+    
+    
+    	Long running requests return a 201 status code
+    	When this happens the taskid is parsed from the response
+    	and stored in a local file /tmp/task.tmp
+    	-x status will read this file and gets the status of the last long running request
+    
+    Some Examples:
+    
+    Creating a subscription:
+    
+    		rediscapi.py -x create-subscription -f create-sub.json
+    
+    Delete a subscription:
+    
+    		rediscapi.py -x delete-subscription -s 439429
+    
+    Creating a Database:
+    
+    		rediscapi.py -x create-database -f create-db.json
+    
+    Update a Database:
+    
+    		rediscapi.py -x update-database -s 439429 -d 46201 -f create-db.json
+    
+    Delete a Database:
+    
+    		rediscapi.py -x delete-database -s 439429 -d 46201
+    
+    Check the status of the task from the last long running request (201 response code)
+    
+    		rediscapi.py -x status
+
+
+
 ### Examples
 
 Before we can use rediscapi we have to edit **keys.json** and insert our api keys.
 
     { "apikey" : "InsertApikeyHere",  "secretkey": "InsertSecretkeyHere"}
 
-
-##### Getting information about the account.  
-
-
-
     
-#####  Create a subscription
-
-
   
 
 ### Conclusion
