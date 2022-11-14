@@ -47,7 +47,16 @@ API requests that create or modify resources require a JSON formatted request.  
 
 ### Introducing rediscapi
 
-rediscapi is a simple python command line interface to the Redis Cloud API.  It can be used to create and delete subscriptions, create, modify and delete databases, and it allows you to monitor a long running task.  Here's the documentation: 
+rediscapi is a simple python command line interface to the Redis Cloud API.  It can be used to create and delete subscriptions, create, modify and delete databases, and it allows you to monitor a long running task.  
+
+Dependencies: python 3.10
+
+
+Install the requests package using the following command:
+
+    pip install requests
+    
+Here's the documentation: 
 
     
     rediscapi - A command line interface to the Redis Cloud API
